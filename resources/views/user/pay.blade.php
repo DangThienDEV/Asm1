@@ -2,62 +2,73 @@
 
 @section('content')
 <div class="container mt-4">
+    <h2>Order Confirmation</h2>
+    <form action="{{ route('checkout.placeOrder') }}" method="POST">
+        @csrf
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-light">
-                        <h2>Invoice</h2>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h5>Shop Name</h5>
-                                <p>123 Street, City, Country</p>
-                                <p>Email: shop@example.com</p>
-                                <p>Phone: (123) 456-7890</p>
-                            </div>
-                            <div>
-                                <h5>Invoice #: 0001</h5>
-                                <p>Date: 2024-07-18</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-4">
-                            <div>
-                                <h5>Billing To:</h5>
-                                <p>John Doe</p>
-                                <p>456 Avenue, City, Country</p>
-                                <p>Email: john@example.com</p>
-                                <p>Phone: (987) 654-3210</p>
-                            </div>
-                        </div>
-                        <table class="table table-bordered">
-                        <thead>
+            <!-- Customer Information -->
+            <div class="col-md-6">
+                <h3>Customer Information</h3>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ $user->name ?? '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ $user->email ?? '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address:</label>
+                    <input type="text" id="address" name="address" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-6">
+                <h3>Order Details</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($cartItems as $item)
                             <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Price</th>
+                                <td>{{ $item->product->name }}</td>
+                                <td>${{ number_format($item->product->price, 2) }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>${{ number_format($item->product->price * $item->quantity, 2) }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Product 1</td>
-                                <td>$10.00</td>
-                            </tr>
-                            <tr>
-                                <td>Product 2</td>
-                                <td>$20.00</td>
-                            </tr>
-                            <tr>
-                                <td class="text-end"><strong>Total</strong></td>
-                                <td>$30.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                    <div class="card-footer bg-light text-end">
-                        <button class="btn btn-primary" onclick="window.print()">Print Invoice</button>
-                    </div>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                            <td>${{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="form-group">
+                    <label for="payment_method">Payment Method:</label>
+                    <select id="payment_method" name="payment_method" class="form-control" required>
+                        <option value="credit_card">Credit Card</option>
+                        <option value="paypal">OCD</option>
+                        <option value="paypal">PayPal</option>
+                        <!-- Thêm các phương thức thanh toán khác nếu cần -->
+                    </select>
                 </div>
             </div>
         </div>
-    </div>
+        <button type="submit" class="btn btn-primary">Confirm Order</button>
+    </form>
+</div>
 @endsection
+ 

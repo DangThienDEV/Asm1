@@ -35,14 +35,14 @@
                         <a class="nav-link" href="{{route('product.search')}}">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="{{route('login')}}">Login</a>
                     </li>
                 </ul>
                
 
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cart (0)</a>
+                        <a class="nav-link" href="{{ route('cart.index') }}">Cart (0)</a>
                     </li>
                     <li class="nav-item">
                         @auth
@@ -97,7 +97,80 @@
             © 2024 Shop Name
         </div>
     </footer>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Tăng số lượng
+        $('.increase-quantity').click(function() {
+            let row = $(this).closest('tr');
+            let input = row.find('.quantity-input');
+            let currentQuantity = parseInt(input.val());
+            input.val(currentQuantity + 1).trigger('change');
+        });
+
+        // Giảm số lượng
+        $('.decrease-quantity').click(function() {
+            let row = $(this).closest('tr');
+            let input = row.find('.quantity-input');
+            let currentQuantity = parseInt(input.val());
+            if (currentQuantity > 1) {
+                input.val(currentQuantity - 1).trigger('change');
+            }
+        });
+
+        // Xử lý thay đổi số lượng
+        $('.quantity-input').on('change', function() {
+            let row = $(this).closest('tr');
+            let itemId = row.data('item-id');
+            let quantity = $(this).val();
+
+            $.ajax({
+                url: '{{ route('cart.updateQuantity', '') }}/' + itemId,
+                type: 'PATCH',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    quantity: quantity
+                },
+                success: function(response) {
+                    if (response.success) {
+                        row.find('.total-price').text('$' + response.total);
+                        $('#cart-total').text('$' + response.cartTotal);
+                    }
+                }
+            });
+        });
+
+        // Xử lý nút "Update Cart"
+        $('#update-cart-btn').click(function() {
+            let form = $('#cart-form');
+            $.ajax({
+                url: form.attr('action'),
+                type: 'PUT',
+                data: form.serialize(),
+                success: function(response) {
+                    alert('Cart updated successfully!');
+                },
+                error: function() {
+                    alert('An error occurred while updating the cart.');
+                }
+            });
+        });
+    });
+
+</script>
+
+    <script>
+
+    document.querySelectorAll('form[action*="/cart/remove"]').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!confirm('Are you sure you want to remove this item from your cart?')) {
+                event.preventDefault();
+            }
+        });
+    });
+    </script>
 </body>
 </html>

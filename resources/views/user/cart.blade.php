@@ -1,61 +1,57 @@
 @extends('layout.admin')
+
 @section('content')
 <div class="container mt-4">
-        <h2>Shopping Cart</h2>
-        <table class="table">
+    <h2>Your Cart</h2>
+    @if($cartItems->isEmpty())
+        <p>Your cart is empty.</p>
+    @else
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Actions</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/50" class="img-fluid" alt="Product 1">
-                            <div class="ms-3">
-                                <h5 class="mb-0">Product 1</h5>
+                @foreach($cartItems as $item)
+                    <tr data-item-id="{{ $item->id }}">
+                        <td>{{ $item->product->name }}</td>
+                        <td>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-secondary btn-sm decrease-quantity">-</button>
+                                <input type="number" name="quantities[{{ $item->id }}]" value="{{ $item->quantity }}" class="form-control text-center quantity-input" min="1">
+                                <button type="button" class="btn btn-secondary btn-sm increase-quantity">+</button>
                             </div>
-                        </div>
-                    </td>
-                    <td>$10.00</td>
-                    <td>
-                        <input type="number" class="form-control" value="1" min="1">
-                    </td>
-                    <td>$10.00</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm">Remove</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/50" class="img-fluid" alt="Product 2">
-                            <div class="ms-3">
-                                <h5 class="mb-0">Product 2</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>$20.00</td>
-                    <td>
-                        <input type="number" class="form-control" value="2" min="1">
-                    </td>
-                    <td>$40.00</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm">Remove</button>
-                    </td>
-                </tr>
+                        </td>
+                        <td>${{ number_format($item->product->price, 2) }}</td>
+                        <td class="total-price">${{ number_format($item->product->price * $item->quantity, 2) }}</td>
+                        <td>
+                            <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                            <form action="{{ route('cart.index') }}" method="GET" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm">Update</button>
+                            </form>
+                            
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                    <td id="cart-total">${{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}</td>
+                </tr>
+            </tfoot>
         </table>
-        <div class="d-flex justify-content-end">
-            <h5>Total: $50.00</h5>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a href="#" class="btn btn-primary">Proceed to Checkout</a>
-        </div>
-    </div>
+        <a href="{{ route('checkout.confirm') }}" class="btn btn-success">Proceed to Checkout</a>
+    @endif
+</div>
 @endsection

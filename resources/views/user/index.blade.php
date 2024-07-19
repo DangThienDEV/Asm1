@@ -5,11 +5,11 @@
     <!-- Banner -->
     <div class="container mt-4">
         <div class="jumbotron p-5 bg-light rounded-3">
-        <h1 class="display-4">
+        <h1 class="display-4" >
                 @auth
-                    Welcome to Our Shop {{ $user->name }}!
+                    Welcome to Computer: {{ $user->name }}!
                 @else
-                    Welcome to Our Shop!
+                    Welcome to Computer!
                 @endauth
             </h1>
             <p class="lead">Find the best products at unbeatable prices.</p>
