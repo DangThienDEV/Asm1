@@ -29,7 +29,7 @@
                     @foreach($order->orderItems as $item)
                         <tr>
                             <td>{{ $item->product->name }}</td>
-                            <td>${{ number_format($item->price, 2) }}</td>
+                            <td>${{ number_format($item->price, 2) }}VND</td>
                             <td>{{ $item->quantity }}</td>
                             <td>${{ number_format($item->price * $item->quantity, 2) }}</td>
                         </tr>

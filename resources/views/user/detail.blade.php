@@ -13,7 +13,7 @@
         <div class="col-md-6">
             <!-- Hiển thị thông tin sản phẩm -->
             <h3>{{ $product->name }}</h3>
-            <p>Giá Sản Phẩm: ${{ number_format($product->price, 2) }}</p>
+            <p>Giá Sản Phẩm: ${{ number_format($product->price, 2) }} VND</p>
             <p>{{ $product->content }}</p>
             <p>Category: {{ $product->category_name }}</p>
 
