@@ -28,7 +28,7 @@
                             </div>
                         </td>
                         <td>${{ number_format($item->product->price, 2) }}</td>
-                        <td class="total-price">${{ number_format($item->product->price * $item->quantity, 2) }}VND</td>
+                        <td class="total-price">{{ number_format($item->product->price * $item->quantity) }}VND</td>
                         <td>
                             <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
@@ -47,7 +47,7 @@
             <tfoot>
                 <tr>
                     <td colspan="4" class="text-right"><strong>Total:</strong></td>
-                    <td id="cart-total">${{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}</td>
+                    <td id="cart-total">{{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity)) }}VND</td>
                 </tr>
             </tfoot>
         </table>

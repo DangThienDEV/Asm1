@@ -52,7 +52,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-right"><strong>Total:</strong></td>
-                            <td>${{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}</td>
+                            <td>{{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}VND</td>
                         </tr>
                     </tfoot>
                 </table>
