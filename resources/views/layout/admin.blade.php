@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <style>
         .img-fixed {
             height: 400px; /* Đặt chiều cao cố định cho hình ảnh */
             object-fit: cover; /* Cắt hình ảnh để giữ tỷ lệ */
@@ -41,9 +42,14 @@
                
 
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cart.index') }}">Cart (0)</a>
-                    </li>
+                <li class="nav-item">
+                    @if (Auth::check())
+                        <a class="nav-link" href="{{ route('cart.index') }}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                    @else
+                        <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                    @endif
+                </li>
+
                     <li class="nav-item">
                         @auth
                             <form action="{{ route('logout') }}" method="POST" class="d-flex">
@@ -101,9 +107,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Tăng số lượng
+    <script>
+            $(document).ready(function() {
+        // Xử lý tăng số lượng
         $('.increase-quantity').click(function() {
             let row = $(this).closest('tr');
             let input = row.find('.quantity-input');
@@ -111,7 +117,7 @@
             input.val(currentQuantity + 1).trigger('change');
         });
 
-        // Giảm số lượng
+        // Xử lý giảm số lượng
         $('.decrease-quantity').click(function() {
             let row = $(this).closest('tr');
             let input = row.find('.quantity-input');
@@ -158,19 +164,47 @@
                 }
             });
         });
-    });
 
-</script>
-
-    <script>
-
-    document.querySelectorAll('form[action*="/cart/remove"]').forEach(form => {
-        form.addEventListener('submit', function(event) {
-            if (!confirm('Are you sure you want to remove this item from your cart?')) {
-                event.preventDefault();
-            }
+        // Xử lý xác nhận khi xóa sản phẩm
+        document.querySelectorAll('form[action*="/cart/remove"]').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                if (!confirm(confirmation.removeItem)) {
+                    event.preventDefault();
+                }
+            });
         });
     });
-    </script>
+
+    // Đối tượng xác nhận để quản lý các thông báo
+    const confirmation = {
+        login: 'You need to log in to view your cart. Do you want to log in now?',
+        addToCart: 'Thêm vào giỏ hàng thành công',
+        updateCart: 'Cap nhap thanh cong',
+        order: 'Dat hang thanh cong',
+        removeItem: 'Are you sure you want to remove this item from your cart?'
+    };
+
+    // Hàm xác nhận
+    function confirmLogin() {
+        return confirm(confirmation.login);
+    }
+
+    function confirmCart() {
+        return confirm(confirmation.addToCart);
+    }
+
+    function confirmCartUpdate() {
+        return confirm(confirmation.updateCart);
+    }
+
+    function confirmOrder() {
+        return confirm(confirmation.order);
+    }
+    function confirmLoginSuccess() {
+        return confirm(confirmation.LoginSuccess);
+    }
+
+    </script>    
+
 </body>
 </html>

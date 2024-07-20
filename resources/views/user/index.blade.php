@@ -15,7 +15,7 @@
             <p class="lead">Find the best products at unbeatable prices.</p>
             <hr class="my-4">
             <p>Explore our wide range of products and enjoy great discounts.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Shop Now</a>
+            <a class="btn btn-primary btn-lg" href="{{route('product.search')}}" role="button">Shop Now</a>
         </div>
     </div>
 

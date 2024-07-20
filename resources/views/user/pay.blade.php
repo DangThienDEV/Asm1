@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Confirm Order</button>
+        <button type="submit" class="btn btn-primary" onclick="return confirmOrder()">Confirm Order</button>
     </form>
 </div>
 @endsection

@@ -68,5 +68,5 @@ class AuthController extends Controller
 
         return view('user.login');
     }
-    
+
 }

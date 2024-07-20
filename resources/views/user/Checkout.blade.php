@@ -29,16 +29,16 @@
                     @foreach($order->orderItems as $item)
                         <tr>
                             <td>{{ $item->product->name }}</td>
-                            <td>{{ number_format($item->price, 2) }}VND</td>
+                            <td>{{ number_format($item->price) }}VND</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price * $item->quantity, 2) }}VND</td>
+                            <td>{{ number_format($item->price * $item->quantity) }}VND</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-right"><strong>Total:</strong></td>
-                        <td>${{ number_format($order->total_price, 2) }}</td>
+                        <td>{{ number_format($order->total_price) }}VND</td>
                     </tr>
                 </tfoot>
             </table>

@@ -37,7 +37,7 @@
                             </form>
                             <form action="{{ route('cart.index') }}" method="GET" style="display:inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-sm">Update</button>
+                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirmCartUpdate()">Update</button>
                             </form>
                             
                         </td>
