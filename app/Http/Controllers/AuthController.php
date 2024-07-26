@@ -40,7 +40,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return view('user.login');
+        return redirect()->intended('home');
     }
 
     // Hiển thị form đăng ký

@@ -36,7 +36,20 @@
                         <a class="nav-link" href="{{route('product.search')}}">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('login')}}">Login</a>
+                        @if(Auth::check())
+                        <a class="nav-link" href="">Đơn Hàng</a>
+                        @else
+                        <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Đơn Hàng</a>
+                        
+                        @endif
+                    </li>
+                    <li class="nav-item">
+                        @if(Auth::check())
+                        <a class="nav-link" href="">Lịch sử</a>
+                        @else
+                        <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Lịch sử</a>
+                        
+                        @endif
                     </li>
                 </ul>
                
@@ -44,7 +57,7 @@
                 <ul class="navbar-nav">
                 <li class="nav-item">
                     @if (Auth::check())
-                        <a class="nav-link" href="{{ route('cart.index') }}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                        <a class="nav-link" href="{{route('cart.index') }}">Cart <i class="fa-solid fa-cart-shopping"></i></a>
                     @else
                         <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Cart <i class="fa-solid fa-cart-shopping"></i></a>
                     @endif
@@ -57,7 +70,7 @@
                                 <button type="submit" class="btn btn-link">Logout</button>
                             </form>
                         @else
-                            <!-- Thêm bất kỳ nội dung nào bạn muốn hiển thị khi chưa đăng nhập -->
+                            <a class="nav-link" href="{{route('login')}}">Login</a>
                         @endauth
                     </li>
                 </ul>
@@ -177,7 +190,7 @@
 
     // Đối tượng xác nhận để quản lý các thông báo
     const confirmation = {
-        login: 'You need to log in to view your cart. Do you want to log in now?',
+        login: 'Bạn Cần Đăng NHập Để Xem. Bạn Có Muốn Đăng Nhập Ngay KHông ?',
         addToCart: 'Thêm vào giỏ hàng thành công',
         updateCart: 'Cap nhap thanh cong',
         order: 'Dat hang thanh cong',
