@@ -21,6 +21,10 @@
                     <tr data-item-id="{{ $item->id }}">
                         <td>{{ $item->product->name }}</td>
                         <td>
+                        <img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;">
+                       
+                    </td>
+                        <td>
                             <div class="input-group">
                                 <button type="button" class="btn btn-secondary btn-sm decrease-quantity">-</button>
                                 <input type="number" name="quantities[{{ $item->id }}]" value="{{ $item->quantity }}" class="form-control text-center quantity-input" min="1">

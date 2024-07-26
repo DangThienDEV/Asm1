@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,3 +55,13 @@ Route::get('/order/invoice/{id}', [CheckoutController::class, 'invoice'])->name(
 
 
 // Route::get('/index', [HomeController::class, 'index'])->name('home');
+
+// comment
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+// Route for displaying comments on product page
+Route::get('/products/{id}/comments', [CommentController::class, 'show'])->name('comments.show');
+
+Route::get('/admin', [HomeController::class, 'showAdmin'])->name('admin');;
+
+Route::resource('products', ProductController::class);
+Route::resource('categories', CategoryController::class);

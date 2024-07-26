@@ -43,6 +43,10 @@
                         @foreach($cartItems as $item)
                             <tr>
                                 <td>{{ $item->product->name }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;">
+                                
+                                </td>
                                 <td>${{ number_format($item->product->price, 2) }}VND</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>${{ number_format($item->product->price * $item->quantity, 2) }}</td>

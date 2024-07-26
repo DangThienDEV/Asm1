@@ -51,10 +51,17 @@
                         
                         @endif
                     </li>
-                </ul>
-               
+                    <li class="nav-item">
+                    <li class="nav-item">
+                        @if(Auth::check() && Auth::user()->role == 1)
+                            <!-- Nếu người dùng là admin, hiển thị liên kết đến trang admin -->
+                            <a class="nav-link" href="{{route('admin') }}">Quản Lý Admin</a>
+                        @endif
+                    </li>
 
-                <ul class="navbar-nav">
+
+                </ul>
+               <ul class="navbar-nav">
                 <li class="nav-item">
                     @if (Auth::check())
                         <a class="nav-link" href="{{route('cart.index') }}">Cart <i class="fa-solid fa-cart-shopping"></i></a>

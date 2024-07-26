@@ -43,7 +43,7 @@
         @foreach($products as $product)
             <div class="col-lg-3 col-md-4 mb-4">
                 <div class="card">
-                    <img src="{{ asset($product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
+                    <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ number_format($product->price, 2) }} VND</p>
@@ -62,7 +62,7 @@
         @foreach($trendingProducts as $product)
             <div class="col-lg-3 col-md-4 mb-4">
                 <div class="card">
-                    <img src="{{ asset($product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
+                    <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ number_format($product->price) }}VND</p>

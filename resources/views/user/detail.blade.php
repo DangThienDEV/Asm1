@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Hiển thị ảnh sản phẩm -->
-            <img src="{{ asset($product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
+            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
         </div>
         <div class="col-md-6">
             <!-- Hiển thị thông tin sản phẩm -->
@@ -42,49 +42,45 @@
  <!-- Comments Section -->
 
  <div class="container mt-4">
-    <div class="col-md-12">
-        <div id="product-tab">
-            <!-- Tabs Navigation -->
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Mô tả sản phẩm</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Comment về sản phẩm</a>
-                </li>
-            </ul>
+    <!-- Product Description and Comments Tabs -->
+    <div id="product-tab">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Mô tả sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Comment về sản phẩm</a>
+            </li>
+        </ul>
 
-            <!-- Tabs Content -->
-            <div class="tab-content mt-3" id="myTabContent">
-                <!-- Product Description Tab -->
-                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>
-                                <!-- Mô tả sản phẩm -->
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </div>
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Product Description Tab -->
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>{{ $product->content }}</p> <!-- Assume $product is passed with description -->
                     </div>
                 </div>
+            </div>
 
-                <!-- Comments Tab -->
-                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                    <div class="container mt-5">
-                        <div class="row">
-                            <!-- Comment Form -->
-                            <div class="col-md-6">
-                                <div id="reviews">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h3 class="card-title">Đánh giá sản phẩm</h3>
-                                            <form action="" method="post">
-                                                <input type="hidden" name="product_id" value="">
+            <!-- Comments Tab -->
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <div class="container mt-5">
+                    <div class="row">
+                        <!-- Comment Form -->
+                        <div class="col-md-6">
+                            <div id="reviews">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Đánh giá sản phẩm</h3>
+                                        <form action="{{ route('comments.store') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                                                <div class="form-group">
-                                                    <!-- Check if user is logged in -->
+                                            <div class="form-group">
+                                                @if (Auth::check())
                                                     <label for="username">Tài khoản:</label>
-                                                    <p>Nguyễn Văn A</p> <!-- Replace with dynamic user name -->
+                                                    <p>{{ Auth::user()->name }}</p>
 
                                                     <div class="form-group">
                                                         <label for="content">Nội dung bình luận:</label>
@@ -92,28 +88,37 @@
                                                     </div>
 
                                                     <button type="submit" class="btn btn-primary" name="submit-comment">Thêm Bình Luận</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                @else
+                                                    <p>Bạn cần <a href="{{ route('login') }}">đăng nhập</a> để đánh giá.</p>
+                                                @endif
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Existing Comments -->
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Các Đánh Giá Trước Đó</h5>
-                                        <!-- Hiển thị các bình luận -->
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h6 class="card-subtitle mb-2 text-muted">Nguyễn Văn A</h6>
-                                                <p class="card-text">Sản phẩm rất tốt, tôi rất hài lòng với chất lượng.</p>
-                                                <p class="card-text"><small class="text-muted">01/01/2024 12:00</small></p>
+                        <!-- Existing Comments -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Các Đánh Giá Trước Đó</h5>
+                                    <!-- Hiển thị các bình luận -->
+                                    @if (isset($comments) && $comments->count() > 0)
+                                        @foreach ($comments as $comment)
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <h6 class="card-subtitle mb-2 text-muted">{{ $comment->user->name }}</h6>
+                                                    <p class="card-text">{{ $comment->comment }}</p>
+                                                    <p class="card-text"><small class="text-muted">{{ $comment->created_at->format('d/m/Y H:i') }}</small></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- Add more comments as needed -->
-                                    </div>
+                                        @endforeach
+                                    @else
+                                        <p>Chưa có bình luận nào.</p>
+                                    @endif
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -121,6 +126,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 <!-- Related Products -->
 <div class="container mt-4">
     <h2>Related Products</h2>
@@ -129,7 +136,7 @@
             @foreach($products as $relatedProduct)
                 <div class="col-lg-3 col-md-4 mb-4">
                     <div class="card">
-                        <img src="{{ asset($relatedProduct->image) }}" class="card-img-top img-fixed" alt="{{ $relatedProduct->name }}">
+                        <img src="{{ asset('storage/' . $relatedProduct->image) }}" class="card-img-top img-fixed" alt="{{ $relatedProduct->name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $relatedProduct->name }}</h5>
                             <p class="card-text">${{ number_format($relatedProduct->price, 2) }}</p>

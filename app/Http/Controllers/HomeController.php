@@ -70,5 +70,8 @@ class HomeController extends Controller
 
         return view('user.seach', compact('products', 'categories'));
         }
+    public function showAdmin(){
+        return view('admin.index');
+    }
     
 }

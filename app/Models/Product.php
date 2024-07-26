@@ -15,20 +15,12 @@ class Product extends Model
     // Tùy chọn nếu bảng không sử dụng timestamps
     public $timestamps = true;
 
-    // Các thuộc tính có thể gán hàng loạt
-    protected $fillable = [
-        'ten_san_pham',
-        'hinh_anh',
-        'gia',
-        'mo_ta',
-        'trang_thai',
-        'danh_muc_id'
-    ];
+    protected $fillable = ['name', 'image', 'price', 'content', 'status', 'category_id', 'luot_xem'];
 
-    // Định nghĩa mối quan hệ với bảng Category
+    // Quan hệ với Category
     public function category()
     {
-        return $this->belongsTo(Category::class, 'danh_muc_id');
+        return $this->belongsTo(Category::class);
     }
     public function scopeWithCategoryName($query)
     {
