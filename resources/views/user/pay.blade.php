@@ -34,6 +34,7 @@
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th>Image</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>

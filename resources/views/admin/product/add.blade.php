@@ -64,6 +64,29 @@
         </div>
 
         <div class="uk-margin">
+            <label class="uk-form-label" for="content">Description</label>
+            <div class="uk-form-controls">
+                <textarea class="uk-textarea @error('content') uk-form-danger @enderror" id="content" name="content" rows="5" placeholder="Enter product description">{{ old('content') }}</textarea>
+                @error('content')
+                    <div class="uk-text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="status">Status</label>
+            <div class="uk-form-controls">
+                <select class="uk-select @error('status') uk-form-danger @enderror" id="status" name="status">
+                    <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Inactive</option>
+                </select>
+                @error('status')
+                    <div class="uk-text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="uk-margin">
             <button class="uk-button uk-button-primary" type="submit">Save</button>
             <a class="uk-button uk-button-default" href="{{ route('products.index') }}">Cancel</a>
         </div>

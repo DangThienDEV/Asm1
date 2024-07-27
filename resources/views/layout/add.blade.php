@@ -49,9 +49,29 @@
             align-items: center;
         }
         .custom-container {
-        max-width: 1500px; /* Điều chỉnh giá trị này theo nhu cầu */
-        
+        max-width: 1800px; /* Điều chỉnh giá trị này theo nhu cầu */
     }
+        .btn-active {
+            background-color: #28a745; /* Màu xanh lá cây */
+            color: #fff; /* Văn bản màu trắng */
+            border: none;
+            padding: 10px 20px; /* Điều chỉnh padding để tăng kích thước nút */
+            border-radius: 4px; /* Bo góc nút */
+            font-size: 16px; /* Kích thước văn bản */
+        }
+
+        /* Đối với trạng thái không kích hoạt */
+        .btn-inactive {
+            background-color: #dc3545; /* Màu đỏ */
+            color: #fff; /* Văn bản màu trắng */
+            border: none;
+            padding: 10px 10px; /* Điều chỉnh padding để tăng kích thước nút */
+            border-radius: 4px; /* Bo góc nút */
+            font-size: 16px; /* Kích thước văn bản */
+        }
+
+
+    
     </style>
 </head>
 <body>
@@ -88,7 +108,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="{{route('categories.index')}}">
                         <span uk-icon="icon: list" ratio="1.5"></span>
                         <span class="uk-margin-small-left">Category Management</span>
                     </a>
@@ -121,7 +141,7 @@
         </div>
     </div>
 </div>
-<div class="uk-container-expand ">
+<div class="uk-container-expand " style="">
     @yield('content')
 </div>
 
