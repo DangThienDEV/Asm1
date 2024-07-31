@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit-icons.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Thêm Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .uk-navbar-container {
             background-color: #1e87f0;
             color: white;
         }
         .uk-navbar-nav > li > a {
-            color: green;
+            color: white;
         }
         .uk-offcanvas-bar {
             background-color: #1e87f0;
@@ -24,7 +24,7 @@
             align-items: center;
         }
         .uk-offcanvas-bar a {
-            color: black;
+            color: white;
         }
         .uk-card-title {
             color: #1e87f0;
@@ -36,7 +36,7 @@
             background-color: #1e87f0;
             color: white;
             padding: 20px 0;
-            margin-top: 40px; /* Tạo khoảng cách giữa Dashboard và Footer */
+            margin-top: 40px;
         }
         .uk-card-body {
             display: flex;
@@ -49,35 +49,30 @@
             align-items: center;
         }
         .custom-container {
-        max-width: 1800px; /* Điều chỉnh giá trị này theo nhu cầu */
-    }
+            max-width: 1800px;
+        }
         .btn-active {
-            background-color: #28a745; /* Màu xanh lá cây */
-            color: #fff; /* Văn bản màu trắng */
+            background-color: #28a745;
+            color: #fff;
             border: none;
-            padding: 10px 20px; /* Điều chỉnh padding để tăng kích thước nút */
-            border-radius: 4px; /* Bo góc nút */
-            font-size: 16px; /* Kích thước văn bản */
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
         }
-
-        /* Đối với trạng thái không kích hoạt */
         .btn-inactive {
-            background-color: #dc3545; /* Màu đỏ */
-            color: #fff; /* Văn bản màu trắng */
+            background-color: #dc3545;
+            color: #fff;
             border: none;
-            padding: 10px 10px; /* Điều chỉnh padding để tăng kích thước nút */
-            border-radius: 4px; /* Bo góc nút */
-            font-size: 16px; /* Kích thước văn bản */
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
         }
-
-
-    
     </style>
 </head>
 <body>
-<div class="uk-offcanvas-content" >
-     <!-- Navbar -->
-     <nav class="uk-navbar-container" uk-navbar>
+<div class="uk-offcanvas-content">
+    <!-- Navbar -->
+    <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
             <a class="uk-navbar-toggle" uk-toggle="target: #offcanvas-nav-primary">
                 <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
@@ -141,24 +136,23 @@
         </div>
     </div>
 </div>
-<div class="uk-container-expand " style="">
+<div class="uk-container-expand custom-container">
     @yield('content')
 </div>
 
+<!-- Footer -->
+<footer class="footer">
+    <div class="uk-container uk-text-center">
+        <p>&copy; 2024 Văn Mạc Computer. All rights reserved.</p>
+        <p>
+            <a href="#" class="uk-link-light">Privacy Policy</a> |
+            <a href="#" class="uk-link-light">Terms of Service</a> |
+            <a href="#" class="uk-link-light">Contact Us</a>
+        </p>
+    </div>
+</footer>
 
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="uk-container uk-text-center">
-            <p>&copy; 2024 Your Company. All rights reserved.</p>
-            <p>
-                <a href="#" class="uk-link-light">Privacy Policy</a> |
-                <a href="#" class="uk-link-light">Terms of Service</a> |
-                <a href="#" class="uk-link-light">Contact Us</a>
-            </p>
-        </div>
-    </footer>
-    <script>
+<script>
     // Sales Overview Chart
     var ctx1 = document.getElementById('salesChart').getContext('2d');
     var salesChart = new Chart(ctx1, {
@@ -237,9 +231,5 @@
         }
     });
 </script>
-
-
-</div>
-
 </body>
 </html>

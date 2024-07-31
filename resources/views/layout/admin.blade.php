@@ -12,6 +12,38 @@
             object-fit: cover; /* Cắt hình ảnh để giữ tỷ lệ */
             width: 100%; /* Đảm bảo hình ảnh chiếm toàn bộ chiều rộng của thẻ card */
         }
+        .carousel-item img {
+            height: 500px; /* Adjust the height as needed */
+            object-fit: cover;
+            width: 100%;
+        }
+        footer {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+
+        footer h5 {
+            color: #343a40;
+        }
+
+        footer a {
+            color: #343a40;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #007bff;
+        }
+
+        footer .fab {
+            transition: color 0.3s ease;
+        }
+
+        footer .fab:hover {
+            color: #007bff;
+        }
+
+
 
     </style>
 </head>
@@ -90,40 +122,74 @@
     </div>
 
 
-
-<footer class="bg-light text-center text-lg-start mt-4">
-        <div class="container p-4">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Văn Mạc Computer</h5>
-                    <p>
-                        Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </p>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Contact</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li>
-                            <a href="#!" class="text-dark">Contact Us</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-dark">Support</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-dark">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-dark">Terms of Service</a>
-                        </li>
-                    </ul>
-                </div>
+    <footer class="bg-light text-center text-lg-start mt-4">
+    <div class="container p-4">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase font-weight-bold">Văn Mạc Computer</h5>
+                <p>
+                    We offer the best products at unbeatable prices. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </p>
+            </div>
+            <!-- Contact Section -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase font-weight-bold">Contact</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="#!" class="text-dark">Contact Us</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#!" class="text-dark">Support</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#!" class="text-dark">Privacy Policy</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#!" class="text-dark">Terms of Service</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Social Media Section -->
+            <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase font-weight-bold">Follow Us</h5>
+                <ul class="list-unstyled d-flex justify-content-center">
+                    <li class="me-3">
+                        <a href="#!" class="text-dark">
+                            <i class="fab fa-facebook-f fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="me-3">
+                        <a href="#!" class="text-dark">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="me-3">
+                        <a href="#!" class="text-dark">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" class="text-dark">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="text-center p-3 bg-dark text-light">
-            © 2024 Shop Name
-        </div>
-    </footer>
-    
+    </div>
+    <div class="text-center p-3 bg-dark text-light">
+        © 2024 Văn Mạc Computer
+    </div>
+</footer>
+
+<!-- Add this script in your Blade template if not already included -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+<!-- Add this script in your Blade template if not already included -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
