@@ -182,62 +182,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
             $(document).ready(function() {
-        // Xử lý tăng số lượng
-        $('.increase-quantity').click(function() {
-            let row = $(this).closest('tr');
-            let input = row.find('.quantity-input');
-            let currentQuantity = parseInt(input.val());
-            input.val(currentQuantity + 1).trigger('change');
-        });
-
-        // Xử lý giảm số lượng
-        $('.decrease-quantity').click(function() {
-            let row = $(this).closest('tr');
-            let input = row.find('.quantity-input');
-            let currentQuantity = parseInt(input.val());
-            if (currentQuantity > 1) {
-                input.val(currentQuantity - 1).trigger('change');
-            }
-        });
-
-        // Xử lý thay đổi số lượng
-        $('.quantity-input').on('change', function() {
-            let row = $(this).closest('tr');
-            let itemId = row.data('item-id');
-            let quantity = $(this).val();
-
-            $.ajax({
-                url: '{{ route('cart.updateQuantity', '') }}/' + itemId,
-                type: 'PATCH',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    quantity: quantity
-                },
-                success: function(response) {
-                    if (response.success) {
-                        row.find('.total-price').text('$' + response.total);
-                        $('#cart-total').text('$' + response.cartTotal);
-                    }
-                }
-            });
-        });
-
-        // Xử lý nút "Update Cart"
-        $('#update-cart-btn').click(function() {
-            let form = $('#cart-form');
-            $.ajax({
-                url: form.attr('action'),
-                type: 'PUT',
-                data: form.serialize(),
-                success: function(response) {
-                    alert('Cart updated successfully!');
-                },
-                error: function() {
-                    alert('An error occurred while updating the cart.');
-                }
-            });
-        });
-
         // Xử lý xác nhận khi xóa sản phẩm
         document.querySelectorAll('form[action*="/cart/remove"]').forEach(form => {
             form.addEventListener('submit', function(event) {
@@ -280,6 +224,44 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
     </script>    
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const updateCartTotal = () => {
+        let total = 0;
+        document.querySelectorAll('tr[data-item-id]').forEach(row => {
+            const quantity = parseInt(row.querySelector('.quantity-input').value);
+            const price = parseFloat(row.querySelector('td:nth-child(4)').innerText.replace('$', '').replace(',', ''));
+            const totalPrice = quantity * price;
+            row.querySelector('.total-price').innerText = `${totalPrice.toFixed(2)} VND`;
+            total += totalPrice;
+        });
+        document.getElementById('cart-total').innerText = `${total.toFixed(2)} VND`;
+    };
 
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', updateCartTotal);
+    });
+
+    document.querySelectorAll('.increase-quantity').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.closest('tr').querySelector('.quantity-input');
+            input.value = parseInt(input.value) + 1;
+            input.dispatchEvent(new Event('input'));
+        });
+    });
+
+    document.querySelectorAll('.decrease-quantity').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.closest('tr').querySelector('.quantity-input');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                input.dispatchEvent(new Event('input'));
+            }
+        });
+    });
+
+    updateCartTotal();
+});
+</script>
 </body>
 </html>
