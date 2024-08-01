@@ -8,6 +8,10 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +45,8 @@ Route::get('/search', [HomeController::class, 'search'])->name('product.search')
 // Route cho gio hang   
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/checkout/selected', [CartController::class, 'checkoutSelected'])->name('checkout.selected');
+
 // web.php
 
 Route::patch('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
@@ -65,3 +71,6 @@ Route::get('/admin', [HomeController::class, 'showAdmin'])->name('admin');;
 
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
+
+Route::resource('orders', OrderController::class);
+Route::resource('users', UserController::class);

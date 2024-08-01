@@ -109,7 +109,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="{{route('orders.index')}}">
                         <span uk-icon="icon: credit-card" ratio="1.5"></span>
                         <span class="uk-margin-small-left">Order Management</span>
                     </a>
@@ -127,7 +127,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="{{route('users.index')}}">
                         <span uk-icon="icon: users" ratio="1.5"></span>
                         <span class="uk-margin-small-left">User Management</span>
                     </a>
