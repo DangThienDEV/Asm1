@@ -23,10 +23,9 @@ class Category extends Model
 
     // Các thuộc tính có thể gán hàng loạt
     protected $fillable = [
-        'ten_danh_muc',
-        'mo_ta'
+        'name',
+        'status'
     ];
-
     // Định nghĩa mối quan hệ với bảng Products
     public function products()
     {

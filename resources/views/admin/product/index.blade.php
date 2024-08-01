@@ -1,38 +1,41 @@
 @extends('layout.add')
 
 @section('content')
-<div class="uk-container uk-margin-top">
-    <h1 class="uk-heading-line"><span>Quản Lý Sản Phẩm</span></h1>
+<div class="uk-container uk-container-large uk-margin-top">
+    <h2 class="uk-heading-line"><span>Products</span></h2>
+    <a href="{{ route('products.create') }}" class="uk-button uk-button-primary uk-margin-bottom">Add Product</a>
 
-    <div class="uk-margin">
-        <a class="uk-button uk-button-primary" href="{{ route('products.create') }}">Thêm Sản Phẩm Mới</a>
-    </div>
+    @if(session('success'))
+        <div class="uk-alert-success" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ session('success') }}</p>
+        </div>
+    @endif
 
     <table class="uk-table uk-table-divider">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Hình Ảnh</th>
-                <th>Tên Sản Phẩm</th>
-                <th>Danh Mục</th>
-                <th>Giá</th>
-                <th>Lượt Xem</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Image</th>
                 <th>Trạng Thái</th>
-                <th>Mô Tả</th>
-                <th>Hành Động</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($products as $product)
+            @foreach($products as $product)
                 <tr>
                     <td>{{ $product->id }}</td>
-                    <td>
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
-                    </td>
                     <td>{{ $product->name }}</td>
-                    <td>{{ $product->category->name ?? 'Chưa có' }}</td>
-                    <td>${{ number_format($product->price, 2) }}</td>
-                    <td>{{ $product->luot_xem }}</td>
+                    <td>{{ $product->category->name }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>
+                        @if($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="50">
+                        @endif
+                    </td>
                     <td>
                         @if ($product->status == 1)
                         <button class="btn-active">Kích hoạt</button>
@@ -42,23 +45,23 @@
                         @endif
                     </td>
 
-                    <td>{{ Str::limit($product->content, 50) }}</td> <!-- Cắt ngắn mô tả tới 50 ký tự -->
                     <td>
-                        <a class="uk-button uk-button-default uk-button-small" href="{{ route('products.show', $product) }}">Xem</a>
-                        <a class="uk-button uk-button-secondary uk-button-small" href="{{ route('products.edit', $product) }}">Sửa</a>
-                        <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('products.show', $product->id) }}" class="uk-button uk-button-small uk-button-default">View</a>
+                        <a href="{{ route('products.edit', $product->id) }}" class="uk-button uk-button-small uk-button-primary">Edit</a>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="uk-button uk-button-danger uk-button-small">Xóa</button>
+                            <button type="submit" class="uk-button uk-button-small uk-button-danger" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="9" class="uk-text-center">Không tìm thấy sản phẩm nào.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
 @endsection
+
+
+
+
+

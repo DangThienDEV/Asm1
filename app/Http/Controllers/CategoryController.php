@@ -17,7 +17,7 @@ class CategoryController extends Controller
     // Hiển thị form tạo danh mục mới
     public function create()
     {
-        return view('categories.create');
+        return view('admin.category.add');
     }
 
     // Xử lý lưu danh mục mới
@@ -28,20 +28,24 @@ class CategoryController extends Controller
             'status' => 'required|integer'
         ]);
 
-        Category::create($request->all());
-        return redirect()->route('categories.index');
+        Category::create([
+            'name' => $request->name,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     // Hiển thị chi tiết danh mục
     public function show(Category $category)
     {
-        return view('categories.show', compact('category'));
+        return view('admin.category.detail', compact('category'));
     }
 
     // Hiển thị form chỉnh sửa danh mục
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
     // Xử lý cập nhật danh mục
@@ -52,15 +56,18 @@ class CategoryController extends Controller
             'status' => 'required|integer'
         ]);
 
-        $category->update($request->all());
-        return redirect()->route('categories.index');
+        $category->update([
+            'name' => $request->name,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     // Xử lý xóa danh mục
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }
-

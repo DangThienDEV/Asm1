@@ -6,6 +6,7 @@
     <title>Shop Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <style>
         .img-fixed {
             height: 400px; /* Đặt chiều cao cố định cho hình ảnh */
@@ -17,32 +18,18 @@
             object-fit: cover;
             width: 100%;
         }
-        footer {
-            background: #f8f9fa;
-            color: #6c757d;
+        .category-card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
         }
-
-        footer h5 {
-            color: #343a40;
+        .product-card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
         }
-
-        footer a {
-            color: #343a40;
-            text-decoration: none;
+        .img-fixed {
+            height: 200px;
+            object-fit: cover;
         }
-
-        footer a:hover {
-            color: #007bff;
-        }
-
-        footer .fab {
-            transition: color 0.3s ease;
-        }
-
-        footer .fab:hover {
-            color: #007bff;
-        }
-
 
 
     </style>
@@ -289,7 +276,9 @@
     function confirmLoginSuccess() {
         return confirm(confirmation.LoginSuccess);
     }
-
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     </script>    
 
 </body>
