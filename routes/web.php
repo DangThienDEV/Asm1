@@ -10,8 +10,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
-
-
+use App\Http\Controllers\UserOrderController;
+use App\Http\Controllers\OderUserController;
+use App\Http\Controllers\StatisticsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,7 +36,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');;
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/detail/{user}', [HomeController::class, 'showDetailUser'])->name('detailUsers');
 // routes/web.php
 Route::get('product/{id}', [HomeController::class, 'show'])->name('product.show');
 Route::get('/category/{id}', [HomeController::class, 'showByCategory'])->name('category.show');
@@ -72,5 +74,22 @@ Route::get('/admin', [HomeController::class, 'showAdmin'])->name('admin');;
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 
-Route::resource('orders', OrderController::class);
+
 Route::resource('users', UserController::class);
+// routes/web.php
+
+// Admin Routes
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::resource('orders', OrderController::class);
+});
+
+// User Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/history', [OderUserController::class, 'index'])->name('history.index');
+    Route::get('/history/{order}', [OderUserController::class, 'show'])->name('history.show');
+    Route::get('/history/{order}/edit', [OderUserController::class, 'edit'])->name('history.edit'); // Route for the edit form
+    Route::post('/history/{order}/update', [OderUserController::class, 'update'])->name('history.update');
+});
+
+
+Route::get('/statistics', [StatisticsController::class, 'getStatistics'])->name('statistics.index');

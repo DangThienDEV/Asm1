@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 26, 2024 at 01:34 AM
+-- Generation Time: Aug 02, 2024 at 08:26 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -40,10 +40,10 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 3, '2024-07-19 09:15:10', '2024-07-19 09:15:10'),
-(2, 1, '2024-07-19 10:42:35', '2024-07-19 10:42:35'),
 (3, 4, '2024-07-19 18:24:51', '2024-07-19 18:24:51'),
 (4, 7, '2024-07-19 18:52:13', '2024-07-19 18:52:13'),
-(5, 2, '2024-07-24 18:42:37', '2024-07-24 18:42:37');
+(5, 2, '2024-07-24 18:42:37', '2024-07-24 18:42:37'),
+(6, 6, '2024-07-31 16:51:19', '2024-07-31 16:51:19');
 
 -- --------------------------------------------------------
 
@@ -59,13 +59,6 @@ CREATE TABLE `cart_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cart_items`
---
-
-INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 5, 2, 1, '2024-07-24 18:43:26', '2024-07-24 18:43:26');
 
 -- --------------------------------------------------------
 
@@ -86,7 +79,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Lenovo', 1, '2024-07-18 11:46:09', '2024-07-18 11:46:09'),
+(1, 'Lenovo', 1, '2024-07-18 11:46:09', '2024-08-01 01:40:06'),
 (2, 'MacBook', 1, '2024-07-18 11:46:09', '2024-07-18 11:46:09'),
 (3, 'Dell', 1, '2024-07-18 11:46:09', '2024-07-18 11:46:09'),
 (4, 'ASUS', 1, '2024-07-18 11:46:09', '2024-07-18 11:46:09');
@@ -186,18 +179,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `status`, `total_price`, `shipping_address`, `phone_number`, `payment_method`, `created_at`, `updated_at`) VALUES
-(4, 1, 'pending', NULL, '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:42:44', '2024-07-19 10:42:44'),
-(5, 1, 'pending', '2300', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:46:19', '2024-07-19 10:46:19'),
-(6, 1, 'pending', '1900', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:48:03', '2024-07-19 10:48:03'),
-(7, 1, 'pending', '2300', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:48:48', '2024-07-19 10:48:48'),
-(8, 1, 'pending', '2300', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:53:04', '2024-07-19 10:53:04'),
-(9, 1, 'pending', '0', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:54:00', '2024-07-19 10:54:00'),
-(10, 1, 'pending', '1900', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', NULL, NULL, '2024-07-19 10:55:40', '2024-07-19 10:55:40'),
-(11, 1, 'pending', '1900', '23 An Trai, Vân Canh, Hoài Đức, Hà Nội', '0936520709', 'credit_card', '2024-07-19 10:57:58', '2024-07-19 10:57:58'),
-(12, 1, 'pending', '3800', 'Liên Mạc Thanh Hà Hải Dương', '0936521719', 'paypal', '2024-07-19 16:57:49', '2024-07-19 16:57:49'),
-(13, 1, 'pending', '40000000', 'Liên Mạc Thanh Hà Hải Dương', '0936521719', 'credit_card', '2024-07-19 17:41:40', '2024-07-19 17:41:40'),
-(14, 1, 'pending', '100000000', '23 An Trai', '0936520709', 'credit_card', '2024-07-19 17:52:26', '2024-07-19 17:52:26'),
-(15, 2, 'pending', '172300000', 'Liên Mạc Thanh Hà Hải Dương', '0936521719', 'credit_card', '2024-07-24 18:43:03', '2024-07-24 18:43:03');
+(18, 2, 'pending', '20000', 'Liên Mạc Thanh Hà Hải Dương', '0936521719', 'paypal', '2024-07-25 21:51:36', '2024-07-25 21:51:36'),
+(26, 4, 'pending', '322900000', 'Liên Mạc Thanh Hà Hải Dương', '0936520709', 'credit_card', '2024-08-01 04:16:01', '2024-08-01 04:16:01');
 
 -- --------------------------------------------------------
 
@@ -220,22 +203,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(2, 4, 2, 2, '2299.99', '2024-07-19 10:42:44', '2024-07-19 10:42:44'),
-(3, 5, 2, 1, '2299.99', '2024-07-19 10:46:19', '2024-07-19 10:46:19'),
-(4, 6, 1, 1, '1899.99', '2024-07-19 10:48:03', '2024-07-19 10:48:03'),
-(5, 7, 2, 1, '2299.99', '2024-07-19 10:48:48', '2024-07-19 10:48:48'),
-(6, 8, 2, 1, '2299.99', '2024-07-19 10:53:04', '2024-07-19 10:53:04'),
-(7, 10, 1, 1, '1899.99', '2024-07-19 10:55:40', '2024-07-19 10:55:40'),
-(8, 11, 1, 1, '1899.99', '2024-07-19 10:57:59', '2024-07-19 10:57:59'),
-(9, 12, 1, 2, '1899.99', '2024-07-19 16:57:49', '2024-07-19 16:57:49'),
-(10, 13, 1, 2, '20000000.00', '2024-07-19 17:41:40', '2024-07-19 17:41:40'),
-(11, 14, 1, 5, '20000000.00', '2024-07-19 17:52:26', '2024-07-19 17:52:26'),
-(12, 15, 2, 2, '22900000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03'),
-(13, 15, 2, 1, '22900000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03'),
-(14, 15, 2, 2, '22900000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03'),
-(15, 15, 1, 1, '20000000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03'),
-(16, 15, 3, 1, '18900000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03'),
-(17, 15, 3, 1, '18900000.00', '2024-07-24 18:43:03', '2024-07-24 18:43:03');
+(32, 26, 1, 15, '20000000.00', '2024-08-01 04:16:01', '2024-08-01 04:16:01'),
+(33, 26, 2, 1, '22900000.00', '2024-08-01 04:16:01', '2024-08-01 04:16:01');
 
 -- --------------------------------------------------------
 
@@ -292,15 +261,15 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `products` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` double(10,2) NOT NULL,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` double(10,2) DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `status` tinyint NOT NULL DEFAULT '0',
   `category_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `luot_xem` int NOT NULL
+  `luot_xem` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -308,10 +277,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `image`, `price`, `content`, `status`, `category_id`, `created_at`, `updated_at`, `luot_xem`) VALUES
-(1, 'Lenovo ThinkPad X1 Carbon', 'upload/sanpham/lenovo.jpg\r\n', 20000000.00, 'Mô tả sản phẩm Lenovo ThinkPad X1 Carbon.', 1, 1, '2024-07-18 11:46:17', '2024-07-18 11:46:17', 1000),
-(2, 'MacBook Pro 13-inch', 'upload/sanpham/macbook.jpg', 22900000.00, 'Mô tả sản phẩm MacBook Pro 13-inch.', 1, 2, '2024-07-18 11:46:17', '2024-07-18 11:46:17', 2000),
-(3, 'Dell XPS 15', 'upload/sanpham/dell.jpg', 18900000.00, 'Mô tả sản phẩm Dell XPS 15.', 1, 3, '2024-07-18 11:46:17', '2024-07-18 11:46:17', 1500),
-(4, 'ASUS ZenBook 14', 'upload/sanpham/asus.jpg', 21000000.00, 'Mô tả sản phẩm ASUS ZenBook 14.', 1, 4, '2024-07-18 11:46:17', '2024-07-18 11:46:17', 3000);
+(1, 'Lenovo ThinkPad X1 Carbon', 'uploads/images/lenovo.jpg\n', 20000000.00, 'Mô tả sản phẩm Lenovo ThinkPad X1 Carbon.', 1, 1, '2024-07-18 11:46:17', '2024-08-01 01:44:17', 10001),
+(2, 'MacBook Pro 13-inch', 'uploads/images/u2coGGfYZQM5GXzjxbPbjwq4pNOICOTlBUi78uZt.jpg', 22900000.00, 'Mô tả sản phẩm MacBook Pro 13-inch.', 1, 2, '2024-07-18 11:46:17', '2024-07-25 21:46:48', 2000),
+(3, 'Dell XPS 15', 'uploads/images/xaur8H91exbhGZNxDVK1njA0If8hsZpCq5nUtYB0.jpg', 18900000.00, 'Mô tả sản phẩm Dell XPS 15.', 1, 3, '2024-07-18 11:46:17', '2024-07-25 21:46:59', 1500),
+(4, 'ASUS ZenBook 14', 'uploads/images/asus.jpg', 21000000.00, 'Mô tả sản phẩm ASUS ZenBook 14.', 1, 4, '2024-07-18 11:46:17', '2024-07-18 11:46:17', 3000);
 
 -- --------------------------------------------------------
 
@@ -336,7 +305,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Dang Thien', 'thiendvph42781@fpt.edu.vn', NULL, '$2y$12$QuOhJKmFIPybmnh1aBI5I.6/Ex9pf2bN2hYiXM8AkWQRBMXlk5Hn6', NULL, '2024-07-18 11:01:23', '2024-07-18 11:01:23', NULL),
 (2, 'admin', 'thien@gmail.com', NULL, '$2y$12$4TmnwbN2OG3YguSEZudukOTyCISMTQLYipJ.d.S1K4oOAU9JEHTnW', NULL, '2024-07-18 11:08:36', '2024-07-18 11:08:36', '1'),
 (3, 'Peter', 'dangt@gmail.com', NULL, '$2y$12$SbbOFsEyUtXqscxadTPhuOIuoX2AoLHJWsIzNkb.KwQ/jclrItWYG', NULL, '2024-07-19 08:41:58', '2024-07-19 08:41:58', NULL),
 (4, 'Đặng Thị Lan Anh', 'john.doe@example.com', NULL, '$2y$12$Eg/bmG6/3E7M2Rv/YC0C7u9wOYpQ8Eblm75VkYoiWUFzMEXNOuOCK', NULL, '2024-07-19 18:22:54', '2024-07-19 18:22:54', NULL),
@@ -450,19 +418,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -486,13 +454,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -510,7 +478,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

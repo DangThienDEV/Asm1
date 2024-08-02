@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         .uk-navbar-container {
             background-color: #1e87f0;
@@ -91,7 +92,7 @@
         <div class="uk-offcanvas-bar">
             <ul class="uk-nav uk-nav-default uk-width-1-1">
                 <li class="uk-active menu-item">
-                    <a href="#">
+                    <a href="{{route('admin')}}">
                         <span uk-icon="icon: home" ratio="1.5"></span>
                         <span class="uk-margin-small-left">Dashboard</span>
                     </a>
@@ -121,7 +122,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="{{ route('statistics.index') }}">
                         <span uk-icon="icon: chart" ratio="1.5"></span>
                         <span class="uk-margin-small-left">Statistics</span>
                     </a>
@@ -153,83 +154,103 @@
 </footer>
 
 <script>
-    // Sales Overview Chart
-    var ctx1 = document.getElementById('salesChart').getContext('2d');
-    var salesChart = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [{
-                label: 'Sales',
-                data: [10, 20, 30, 40, 50, 60],
-                backgroundColor: 'rgba(30, 135, 240, 0.2)',
-                borderColor: 'rgba(30, 135, 240, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dữ liệu doanh thu theo ngày từ Laravel
+            const revenueData = @json($revenue_by_date);
+            const newRegistrationsData = @json($new_registrations_by_date);
+            const soldProductsData = @json($sold_products_by_date);
 
-    // User Activity Chart
-    var ctx2 = document.getElementById('activityChart').getContext('2d');
-    var activityChart = new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-            datasets: [{
-                label: 'Activity',
-                data: [5, 15, 25, 35],
-                fill: false,
-                borderColor: 'rgba(30, 135, 240, 1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
+            const revenueLabels = Object.keys(revenueData);
+            const revenueValues = Object.values(revenueData);
+
+            const newRegistrationsLabels = Object.keys(newRegistrationsData);
+            const newRegistrationsValues = Object.values(newRegistrationsData);
+
+            const soldProductsLabels = Object.keys(soldProductsData);
+            const soldProductsValues = Object.values(soldProductsData);
+
+            // Biểu đồ doanh thu theo ngày
+            const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: revenueLabels,
+                    datasets: [{
+                        label: 'Doanh thu theo ngày',
+                        data: revenueValues,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.1
+                    }]
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
                         }
                     }
                 }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
+            });
+
+            // Biểu đồ số lượng đăng ký mới theo ngày
+            const ctxNewRegistrations = document.getElementById('newRegistrationsChart').getContext('2d');
+            new Chart(ctxNewRegistrations, {
+                type: 'bar',
+                data: {
+                    labels: newRegistrationsLabels,
+                    datasets: [{
+                        label: 'Số lượng đăng ký mới theo ngày',
+                        data: newRegistrationsValues,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 2
+                    }]
                 },
-                y: {
-                    beginAtZero: true
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-            }
-        }
-    });
-</script>
+            });
+
+            // Biểu đồ số lượng sản phẩm đã bán ra theo ngày
+            const ctxSoldProducts = document.getElementById('soldProductsChart').getContext('2d');
+            new Chart(ctxSoldProducts, {
+                type: 'bar',
+                data: {
+                    labels: soldProductsLabels,
+                    datasets: [{
+                        label: 'Số lượng sản phẩm đã bán ra theo ngày',
+                        data: soldProductsValues,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

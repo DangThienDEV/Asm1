@@ -56,7 +56,7 @@
                     </li>
                     <li class="nav-item">
                         @if(Auth::check())
-                        <a class="nav-link" href="">Đơn Hàng</a>
+                        <a class="nav-link" href="{{route('history.index')}}">Đơn Hàng</a>
                         @else
                         <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Đơn Hàng</a>
                         
@@ -64,9 +64,9 @@
                     </li>
                     <li class="nav-item">
                         @if(Auth::check())
-                        <a class="nav-link" href="">Lịch sử</a>
+                        <a class="nav-link" href="{{ route('detailUsers', Auth::user()->id) }}">Chi tiết tài khoản</a>
                         @else
-                        <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Lịch sử</a>
+                        <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Chi tiết tài khoản</a>
                         
                         @endif
                     </li>
