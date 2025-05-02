@@ -43,6 +43,7 @@
                     <tbody>
                         @foreach($cartItems as $item)
                             <tr>
+                                <td>{{$item->id}}</td>
                                 <td>{{ $item->product->name }}</td>
                                 <td>
                                     <img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;">
@@ -66,14 +67,23 @@
                     <select id="payment_method" name="payment_method" class="form-control" required>
                         <option value="credit_card">Credit Card</option>
                         <option value="paypal">OCD</option>
-                        <option value="paypal">PayPal</option>
+                       
+                       
                         <!-- Thêm các phương thức thanh toán khác nếu cần -->
                     </select>
+                   
                 </div>
+               
             </div>
         </div>
         <button type="submit" class="btn btn-primary" onclick="return confirmOrder()">Confirm Order</button>
     </form>
+    <form action="{{route('vnpay_payment')}}" method="POST">
+                        @csrf
+                        <input type="" name="total" value="{{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}">
+                        <input type="" name="order_id" value="{{$item->id }}"> 
+                        <button class="btn btn-primary" type="submit">Thanh Toán VN Pay</button>
+                </form>
 </div>
 @endsection
  

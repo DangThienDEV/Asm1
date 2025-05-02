@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <style>
         .uk-navbar-container {
             background-color: #1e87f0;
@@ -73,17 +73,18 @@
 <body>
 <div class="uk-offcanvas-content">
     <!-- Navbar -->
-    <nav class="uk-navbar-container" uk-navbar>
+    <nav class="uk-navbar-container">
         <div class="uk-navbar-left">
             <a class="uk-navbar-toggle" uk-toggle="target: #offcanvas-nav-primary">
                 <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
             </a>
+            <ul class="uk-navbar-nav">
+                <li><a style="color: #1e87f0" href="#">Profile</a></li>
+                <li><a style="color: #1e87f0" href="{{route('home')}}">Logout</a></li>
+            </ul>
         </div>
         <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav">
-                <li><a href="#">Profile</a></li>
-                <li><a href="{{route('home')}}">Logout</a></li>
-            </ul>
+
         </div>
     </nav>
 
@@ -116,9 +117,9 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="{{route('banners.index')}}">
                         <span uk-icon="icon: comments" ratio="1.5"></span>
-                        <span class="uk-margin-small-left">Comment Management</span>
+                        <span class="uk-margin-small-left">Banners Management</span>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -145,10 +146,10 @@
 <footer class="footer">
     <div class="uk-container uk-text-center">
         <p>&copy; 2024 Văn Mạc Computer. All rights reserved.</p>
-        <p>
-            <a href="#" class="uk-link-light">Privacy Policy</a> |
-            <a href="#" class="uk-link-light">Terms of Service</a> |
-            <a href="#" class="uk-link-light">Contact Us</a>
+        <p >
+            <a style="color: #ffffff !important;" href="#" class="uk-link-light">Privacy Policy</a> |
+            <a style="color: #ffffff !important;" href="#" class="uk-link-light">Terms of Service</a> |
+            <a style="color: #ffffff !important;" href="#" class="uk-link-light">Contact Us</a>
         </p>
     </div>
 </footer>

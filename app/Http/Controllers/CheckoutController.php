@@ -11,16 +11,17 @@ use App\Models\OrderItem;
 
 class CheckoutController extends Controller
 {
-    public function confirm()
-{
-    $cartItems = CartItem::all(); // Hoặc lấy các sản phẩm trong giỏ hàng của người dùng hiện tại
-    $user = auth()->user(); // Lấy thông tin người dùng hiện tại nếu đã đăng nhập
+    public function confirm(Request $request)
+    {
+        $selectedIds = $request->input('selected_items', []);
+        $cartItems = CartItem::whereIn('id', $selectedIds)->get();
+        $user = auth()->user();
 
-    return view('user.pay', [
-        'cartItems' => $cartItems,
-        'user' => $user
-    ]);
-}
+        return view('user.pay', [
+            'cartItems' => $cartItems,
+            'user' => $user
+        ]);
+    }
 
 public function placeOrder(Request $request)
 {

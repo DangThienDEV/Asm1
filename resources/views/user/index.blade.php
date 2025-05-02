@@ -2,98 +2,116 @@
 
 @section('content')
 
-<!-- Banner -->
-<div id="carouselExampleIndicators" class="carousel slide mt-4" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{{ asset('storage/uploads/images/banner1.jpg') }}" class="d-block w-100" alt="First slide">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>
-                    @auth
-                        Welcome to Computer: {{ $user->name }}!
-                    @else
-                        Welcome to Computer!
-                    @endauth
-                </h5>
-                <p>Find the best products at unbeatable prices.</p>
-                <a class="btn btn-primary btn-lg" href="{{ route('product.search') }}" role="button">Shop Now</a>
+    @if($banners->count())
+        <div id="carouselExampleIndicators" class="carousel slide mt-4" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach ($banners as $index => $banner)
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                @endforeach
             </div>
-        </div>
-        <div class="carousel-item">
-            <img src="{{ asset('storage/uploads/images/banner3.jpg') }}" class="d-block w-100" alt="Second slide">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Wide Range of Products</h5>
-                <p>Explore our wide range of products and enjoy great discounts.</p>
-                <a class="btn btn-primary btn-lg" href="{{ route('product.search') }}" role="button">Shop Now</a>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="{{ asset('storage/uploads/images/banner2.jpg') }}" class="d-block w-100" alt="Third slide">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Great Discounts</h5>
-                <p>Enjoy unbeatable prices on our best products.</p>
-                <a class="btn btn-primary btn-lg" href="{{ route('product.search') }}" role="button">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </a>
-</div>
 
-<!-- Categories -->
-<div class="container mt-4">
-    <h2>Categories</h2>
-    <div class="row">
-        @foreach($categories as $category)
-            <div class="col-md-3 mb-4">
-                <div class="card category-card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">{{ $category->name }}</h5>
+            <div class="carousel-inner">
+                @foreach ($banners as $index => $banner)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>
+                                @auth
+                                    Welcome to Computer: {{ $user->name }}!
+                                @else
+                                    Welcome to Computer!
+                                @endauth
+                            </h5>
+                            <p>{{ $banner->title }}</p>
+                            @if ($banner->link)
+                                <a class="btn btn-primary btn-lg" href="{{ $banner->link }}" role="button">Shop Now</a>
+                            @endif
                         </div>
-                        <div>
-                            <a href="{{ route('category.show', ['id' => $category->id]) }}" class="btn btn-primary btn-block" data-toggle="tooltip" data-placement="top" title="View products in this category">Shop Now</a>
+                    </div>
+                @endforeach
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    @endif
+
+    <!-- Search & Category Filter -->
+    <div class="container mt-4">
+        <h2>Search Products</h2>
+        <form action="{{ route('home') }}" method="GET">
+            <div class="row align-items-center">
+                <div class="col-md-3 mb-2">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search products..." value="{{ request('keyword') }}">
+                </div>
+                <div class="col-md-3 mb-2">
+                    <select name="category_id" class="form-control select2">
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Summary -->
+    <div class="container mt-2">
+        @if(request('keyword') || request('category_id'))
+            <div class="alert alert-info">
+                <strong>Bạn đang lọc theo:</strong>
+                @if(request('keyword'))
+                    Từ khóa: <em>{{ request('keyword') }}</em>
+                @endif
+                @if(request('category_id'))
+                    @php
+                        $selectedCategory = $categories->firstWhere('id', request('category_id'));
+                    @endphp
+                    | Danh mục: <em>{{ $selectedCategory ? $selectedCategory->name : 'Không xác định' }}</em>
+                @endif
+                <a href="{{ route('home') }}" class="btn btn-sm btn-outline-secondary float-end">Xoá lọc</a>
+            </div>
+        @endif
+    </div>
+
+    <!-- Featured Products -->
+    <div class="container mt-4">
+        <h2 class="col-lg-8 col-md-4 mb-4">The Products You Are Looking For </h2>
+        <div class="row">
+            @forelse($products as $product)
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title">{{ $product->name }}</h5>
+                                <p class="card-text">{{ number_format($product->price, 2) }} VND</p>
+                            </div>
+                            <div>
+                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary btn-block">Add to Cart</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
-</div>
-
-<!-- Featured Products -->
-<div class="container mt-4">
-    <h2>Featured Products</h2>
-    <div class="row">
-        @foreach($products as $product)
-            <div class="col-lg-3 col-md-4 mb-4">
-                <div class="card product-card h-100">
-                    <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top img-fixed" alt="{{ $product->name }}">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">{{ $product->name }}</h5>
-                            <p class="card-text">{{ number_format($product->price, 2) }} VND</p>
-                        </div>
-                        <div>
-                            <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary btn-block">Add to Cart</a>
-                        </div>
-                    </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-warning">Không tìm thấy sản phẩm phù hợp.</div>
                 </div>
-            </div>
-        @endforeach
+            @endforelse
+        </div>
     </div>
-</div>
 
 <!-- Trending Products -->
 <div class="container mt-4">
@@ -141,12 +159,3 @@
 
 @endsection
 
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
-
-<style>
-   
-</style>

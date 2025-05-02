@@ -75,8 +75,10 @@ class CartController extends Controller
         if ($item) {
             $item->delete();
         }
-
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+        return redirect()->back()->with('success', 'Đã xoá sản phẩm');
     }
 
 }

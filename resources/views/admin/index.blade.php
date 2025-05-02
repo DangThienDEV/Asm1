@@ -1,7 +1,7 @@
 @extends('layout.add')
 
 @section('content')
-<div class="uk-container uk-margin-top">
+<div class="uk-margin-top" style="margin-left: 10%;">
     <h1 class="uk-heading-line"><span>Admin</span></h1>
 
     <!-- Thống kê tổng quan -->
@@ -40,38 +40,33 @@
     </div>
 
     <!-- Biểu đồ -->
-    <div class="uk-grid-match uk-child-width-1-1@s uk-margin-top" uk-grid>
-        <div class="uk-width-1-1">
+    <div class="uk-grid-match uk-child-width-1-3@m uk-margin-top" uk-grid>
+        <!-- Ô 1: Doanh thu theo ngày -->
+        <div>
             <div class="uk-card uk-card-default uk-card-body">
-                <h3 class="uk-card-title">Biểu đồ thống kê</h3>
-                <div class="uk-grid uk-child-width-1-3@m uk-margin-top" uk-grid>
-                    <!-- Biểu đồ doanh thu theo ngày -->
-                    <div>
-                        <div class="uk-card uk-card-default uk-card-body">
-                            <h4 class="uk-card-title">Doanh thu theo ngày</h4>
-                            <canvas id="revenueChart" width="400" height="300"></canvas>
-                        </div>
-                    </div>
+                <h3 class="uk-card-title">Doanh thu theo ngày</h3>
+                <canvas id="revenueChart" width="400" height="300"></canvas>
+            </div>
+        </div>
 
-                    <!-- Biểu đồ số lượng đăng ký mới theo ngày -->
-                    <div>
-                        <div class="uk-card uk-card-default uk-card-body">
-                            <h4 class="uk-card-title">Số lượng đăng ký mới theo ngày</h4>
-                            <canvas id="newRegistrationsChart" width="400" height="300"></canvas>
-                        </div>
-                    </div>
+        <!-- Ô 2: Số lượng đăng ký mới -->
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title">Số lượng đăng ký mới theo ngày</h3>
+                <canvas id="newRegistrationsChart" width="400" height="300"></canvas>
+            </div>
+        </div>
 
-                    <!-- Biểu đồ số lượng sản phẩm đã bán ra theo ngày -->
-                    <div>
-                        <div class="uk-card uk-card-default uk-card-body">
-                            <h4 class="uk-card-title">Số lượng sản phẩm đã bán ra theo ngày</h4>
-                            <canvas id="soldProductsChart" width="400" height="300"></canvas>
-                        </div>
-                    </div>
-                </div>
+        <!-- Ô 3: Sản phẩm đã bán -->
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title">Số lượng sản phẩm đã bán ra theo ngày</h3>
+                <canvas id="soldProductsChart" width="400" height="300"></canvas>
             </div>
         </div>
     </div>
+
+
 
     <!-- Các liên kết quản lý -->
     <div class="uk-grid-match uk-child-width-1-3@m uk-margin-large-top" uk-grid>

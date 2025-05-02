@@ -1,7 +1,20 @@
 @extends('layout.admin')
 
 @section('content')
-<div class="container mt-4">
+    <style>
+        #product-description.collapsed {
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #toggle-description {
+            padding: 0;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="container mt-4">
     <div class="row">
         <div class="col-md-6">
             <!-- Hiển thị ảnh sản phẩm -->
@@ -11,7 +24,7 @@
             <!-- Hiển thị thông tin sản phẩm -->
             <h3>{{ $product->name }}</h3>
             <p>Giá Sản Phẩm: {{ number_format($product->price) }} VND</p>
-            <p>{{ $product->content }}</p>
+            <!-- <p>{{ $product->content }}</p> -->
             <p>Category: {{ $product->category_name }}</p>
 
             <!-- Nhóm số lượng và nút Add to Cart -->
@@ -54,14 +67,17 @@
         </ul>
 
         <div class="tab-content mt-3" id="myTabContent">
-            <!-- Product Description Tab -->
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                 <div class="row">
                     <div class="col-md-12">
-                        <p>{{ $product->content }}</p> <!-- Assume $product is passed with description -->
+                        <div id="product-description" class="collapsed">
+                            {!! nl2br(e($product->content)) !!}
+                        </div>
+                        <button id="toggle-description" class="btn btn-link mt-2">Xem thêm</button>
                     </div>
                 </div>
             </div>
+
 
             <!-- Comments Tab -->
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
@@ -79,15 +95,14 @@
 
                                             <div class="form-group">
                                                 @if (Auth::check())
-                                                    <label for="username">Tài khoản:</label>
-                                                    <p>{{ Auth::user()->name }}</p>
+                                                    <label for="username">Tài khoản: {{ Auth::user()->name }}</label>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="margin-top: 3%">
                                                         <label for="content">Nội dung bình luận:</label>
                                                         <textarea name="content" class="form-control" rows="4" style="max-width: 500px" placeholder="Nhập nội dung bình luận"></textarea>
                                                     </div>
 
-                                                    <button type="submit" class="btn btn-primary" name="submit-comment">Thêm Bình Luận</button>
+                                                    <button type="submit" class="btn btn-primary" style="margin-top: 20px" name="submit-comment">Thêm Bình Luận</button>
                                                 @else
                                                     <p>Bạn cần <a href="{{ route('login') }}">đăng nhập</a> để đánh giá.</p>
                                                 @endif
@@ -118,7 +133,7 @@
                                         <p>Chưa có bình luận nào.</p>
                                     @endif
 
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -128,29 +143,65 @@
         </div>
     </div>
 </div>
-<!-- Related Products -->
-<div class="container mt-4">
-    <h2>Related Products</h2>
+    <!-- Related Products -->
     <div class="container mt-4">
-        <div class="row">
-            @foreach($products as $relatedProduct)
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ asset('storage/' . $relatedProduct->image) }}" class="card-img-top img-fixed" alt="{{ $relatedProduct->name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $relatedProduct->name }}</h5>
-                            <p class="card-text">${{ number_format($relatedProduct->price, 2) }}</p>
-                            <p>Category: {{ $relatedProduct->category_id }}</p>
-                            <a href="{{ route('product.show', $relatedProduct->id) }}" class="btn btn-primary">Add to Cart</a>
+        <h2>Related Products</h2>
+        <div class="container mt-4">
+            <div class="row">
+                @foreach($products as $relatedProduct)
+                    @if($relatedProduct->id !== $product->id)
+                        <div class="col-lg-3 col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ asset('storage/' . $relatedProduct->image) }}" class="card-img-top img-fixed" alt="{{ $relatedProduct->name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $relatedProduct->name }}</h5>
+                                    <p class="card-text">${{ number_format($relatedProduct->price, 2) }}</p>
+                                    <p>Category: {{ $relatedProduct->category_id }}</p>
+                                    <a href="{{ route('product.show', $relatedProduct->id) }}" class="btn btn-primary">Add to Cart</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            @endforeach
+                    @endif
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
-
-
-</div>
 
 @endsection
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const desc = document.getElementById("product-description");
+        const btn = document.getElementById("toggle-description");
+        const quantityInput = document.getElementById("quantity");
+        const minusBtn = document.getElementById("button-minus");
+        const plusBtn = document.getElementById("button-plus");
+
+        minusBtn.addEventListener("click", function () {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        plusBtn.addEventListener("click", function () {
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
+        });
+
+        // Optional: Prevent non-numeric input
+        quantityInput.addEventListener("input", function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value === "" || parseInt(this.value) < 1) {
+                this.value = 1;
+            }
+        });
+        btn.addEventListener("click", function () {
+            desc.classList.toggle("collapsed");
+            if (desc.classList.contains("collapsed")) {
+                btn.textContent = "Xem thêm";
+            } else {
+                btn.textContent = "Thu gọn";
+            }
+        });
+    });
+</script>

@@ -6,38 +6,59 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
-use App\Http\Controllers\AuthController;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Comment;
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Lấy danh sách các danh mục
-        $categories = Category::query()->where('status', 1)->get();
+        $categories = Category::where('status', 1)->get();
 
-        // Lấy danh sách các sản phẩm với danh mục liên quan
-        $products = Product::where('status', 1)->with('category')->get();
-        
-        // Lấy danh sách các sản phẩm thịnh hành theo lượt xem
+        $query = Product::where('status', 1)->with('category');
+
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $products = $query->get();
+
         $trendingProducts = Product::where('status', 1)
             ->orderBy('luot_xem', 'desc')
             ->take(5)
-            ->with('category') // Đảm bảo thông tin danh mục cũng được lấy
+            ->with('category')
             ->get();
-        
-        // Trả về view với dữ liệu
+
+        $banners = Banner::where('status', 1)->latest()->get();
         $user = Auth::user();
-        return view('user.index', compact('categories', 'products', 'user', 'trendingProducts'));
+
+        return view('user.index', compact(
+            'categories',
+            'products',
+            'trendingProducts',
+            'banners',
+            'user'
+        ));
     }
+
+
     public function show($id)
     {
         // Lấy sản phẩm theo ID
         $product = Product::withCategoryName()->findOrFail($id);
-
+        $comments = Comment::where('product_id', $id)
+            ->where('status', 0) // Lọc bình luận đã phê duyệt
+            ->with('user') // Tải thông tin người dùng liên quan
+            ->get();
         $products = Product::query()->where('status', 1)->get();
+
         // Trả về view chi tiết với dữ liệu sản phẩm
-        return view('user.detail', compact('product','products'));
+        return view('user.detail', compact('product','products','comments'));
     }
     public function showByCategory($id)
     {
@@ -56,7 +77,7 @@ class HomeController extends Controller
         $category_id = $request->input('category_id');
 
         // Lấy danh mục để hiển thị trên view
-        
+
         $categories = Category::all();
 
         // Tìm kiếm sản phẩm
@@ -107,12 +128,12 @@ class HomeController extends Controller
             'new_registrations_by_date' => $newRegistrationsByDate,
             'sold_products_by_date' => $soldProductsByDate
         ]);
-       
+
     }
     public function showDetailUser(User $user)
     {
         // Trả về view chi tiết tài khoản với dữ liệu tài khoản
         return view('user.detailUser', compact('user'));
     }
-    
+
 }

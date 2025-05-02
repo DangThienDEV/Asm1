@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\OderUserController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\VnpayController;
+use App\Http\Controllers\BannerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,7 +46,7 @@ Route::get('/category/{id}', [HomeController::class, 'showByCategory'])->name('c
 // Route cho tìm kiếm sản phẩm
 Route::get('/search', [HomeController::class, 'search'])->name('product.search');
 
-// Route cho gio hang   
+// Route cho gio hang
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/checkout/selected', [CartController::class, 'checkoutSelected'])->name('checkout.selected');
@@ -56,8 +58,8 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('car
 // route check out
 
 
-Route::get('/checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
-Route::post('/checkout/confirm', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+Route::post('/checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
+Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
 
 Route::get('/order/invoice/{id}', [CheckoutController::class, 'invoice'])->name('order.invoice');
 
@@ -93,3 +95,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/statistics', [StatisticsController::class, 'getStatistics'])->name('statistics.index');
+// thanh toan vn pay
+Route::post('/vnpay_payment', [VnpayController::class, 'vn_payment'])->name('vnpay_payment');
+Route::resource('banners', BannerController::class);
+

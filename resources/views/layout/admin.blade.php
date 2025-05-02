@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <style>
         .img-fixed {
             height: 400px; /* Đặt chiều cao cố định cho hình ảnh */
@@ -27,7 +25,7 @@
             transition: transform 0.3s ease;
         }
         .img-fixed {
-            height: 200px;
+            height: 400px;
             object-fit: cover;
         }
 
@@ -49,7 +47,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('product.search')}}">Products</a>
-                        
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('product.search')}}">Categories</a>
@@ -59,7 +57,7 @@
                         <a class="nav-link" href="{{route('history.index')}}">Đơn Hàng</a>
                         @else
                         <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Đơn Hàng</a>
-                        
+
                         @endif
                     </li>
                     <li class="nav-item">
@@ -67,7 +65,7 @@
                         <a class="nav-link" href="{{ route('detailUsers', Auth::user()->id) }}">Chi tiết tài khoản</a>
                         @else
                         <a class="nav-link" href="{{route('login')}}"  onclick="return confirmLogin()">Chi tiết tài khoản</a>
-                        
+
                         @endif
                     </li>
                     <li class="nav-item">
@@ -105,7 +103,7 @@
     </nav>
     <div class="container mt-4">
         @yield('content')
-        
+
     </div>
 
 
@@ -169,76 +167,8 @@
         © 2024 Văn Mạc Computer
     </div>
 </footer>
-
-<!-- Add this script in your Blade template if not already included -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-
-<!-- Add this script in your Blade template if not already included -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-$(document).ready(function() {
-    // Increase quantity
-    $('.increase-quantity').click(function() {
-        let row = $(this).closest('tr');
-        let input = row.find('.quantity-input');
-        let currentQuantity = parseInt(input.val(), 10);
-        input.val(currentQuantity + 1).trigger('change');
-    });
-
-    // Decrease quantity
-    $('.decrease-quantity').click(function() {
-        let row = $(this).closest('tr');
-        let input = row.find('.quantity-input');
-        let currentQuantity = parseInt(input.val(), 10);
-        if (currentQuantity > 1) {
-            input.val(currentQuantity - 1).trigger('change');
-        }
-    });
-
-    // Handle quantity change
-    $('.quantity-input').on('change', function() {
-        let row = $(this).closest('tr');
-        let itemId = row.data('item-id');
-        let quantity = $(this).val();
-
-        $.ajax({
-            url: '{{ route('cart.updateQuantity', '') }}/' + itemId,
-            type: 'PATCH',
-            data: {
-                _token: '{{ csrf_token() }}',
-                quantity: quantity
-            },
-            success: function(response) {
-                if (response.success) {
-                    row.find('.total-price').text('$' + response.total);
-                    $('#cart-total').text('$' + response.cartTotal);
-                }
-            }
-        });
-    });
-
-    // Handle "Update Cart" button click
-    $('#update-cart-btn').click(function() {
-        let form = $('#cart-form');
-        $.ajax({
-            url: form.attr('action'),
-            type: 'PUT',
-            data: form.serialize(),
-            success: function(response) {
-                alert('Cart updated successfully!');
-            },
-            error: function() {
-                alert('An error occurred while updating the cart.');
-            }
-        });
-    });
-
-    // Confirm item removal
+@stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>   <script>
     document.querySelectorAll('form[action*="/cart/remove"]').forEach(form => {
         form.addEventListener('submit', function(event) {
             if (!confirm('Are you sure you want to remove this item?')) {
@@ -246,7 +176,6 @@ $(document).ready(function() {
             }
         });
     });
-});
 
 
     // Đối tượng xác nhận để quản lý các thông báo
@@ -277,10 +206,7 @@ $(document).ready(function() {
     function confirmLoginSuccess() {
         return confirm(confirmation.LoginSuccess);
     }
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-    </script>    
+    </script>
 
 </body>
 </html>
